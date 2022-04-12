@@ -1,0 +1,11 @@
+C:\Users\seigi\Desktop\mao_work\axum-graphql-seaorm\migration\target\debug\deps\futures_lite-023fdb2163c5a9ab.rmeta: C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\lib.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\future.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\prelude.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\stream.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\io.rs
+
+C:\Users\seigi\Desktop\mao_work\axum-graphql-seaorm\migration\target\debug\deps\libfutures_lite-023fdb2163c5a9ab.rlib: C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\lib.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\future.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\prelude.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\stream.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\io.rs
+
+C:\Users\seigi\Desktop\mao_work\axum-graphql-seaorm\migration\target\debug\deps\futures_lite-023fdb2163c5a9ab.d: C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\lib.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\future.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\prelude.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\stream.rs C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\io.rs
+
+C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\lib.rs:
+C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\future.rs:
+C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\prelude.rs:
+C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\stream.rs:
+C:\Users\seigi\.cargo\registry\src\github.com-1ecc6299db9ec823\futures-lite-1.12.0\src\io.rs:
