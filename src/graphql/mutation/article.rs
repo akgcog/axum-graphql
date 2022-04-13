@@ -1,6 +1,6 @@
 use async_graphql::{Context, Object, Result};
 use entity::async_graphql::{self, InputObject};
-use entity::user;
+use entity::article;
 use entity::sea_orm::{ActiveModelTrait, Set};
 use crate::graphql::mutation::DeleteResult;
 
@@ -10,40 +10,36 @@ use crate::db::Database;
 // a quick example.
 
 #[derive(InputObject)]
-pub struct CreateUserInput {
-    pub name: String,
-    pub e_mail: String,
-    pub password: String,
-    pub profile: String,
+pub struct CreateArticleInput {
+    pub body: String,
+    pub user_id: Option<i32>,
 }
 
 #[derive(Default)]
-pub struct UserMutation;
+pub struct ArticleMutation;
 
 #[Object]
-impl UserMutation {
-    pub async fn create_user(
+impl ArticleMutation {
+    pub async fn create_article(
         &self,
         ctx: &Context<'_>,
-        input: CreateUserInput,
-    ) -> Result<user::Model> {
+        input: CreateArticleInput,
+    ) -> Result<article::Model> {
         let db = ctx.data::<Database>().unwrap();
 
-        let user = user::ActiveModel {
-            name: Set(input.name),
-            e_mail: Set(input.e_mail),
-            password: Set(input.password),
-            profile: Set(input.profile),
+        let article = article::ActiveModel {
+            body: Set(input.body),
+            user_id: Set(input.user_id),
             ..Default::default()
         };
 
-        Ok(user.insert(db.get_connection()).await?)
+        Ok(article.insert(db.get_connection()).await?)
     }
 
-    pub async fn delete_user(&self, ctx: &Context<'_>, id: i32) -> Result<DeleteResult> {
+    pub async fn delete_article(&self, ctx: &Context<'_>, id: i32) -> Result<DeleteResult> {
         let db = ctx.data::<Database>().unwrap();
 
-        let res = user::Entity::delete_by_id(id)
+        let res = article::Entity::delete_by_id(id)
             .exec(db.get_connection())
             .await?;
 

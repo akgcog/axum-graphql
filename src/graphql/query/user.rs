@@ -1,37 +1,20 @@
 use async_graphql::{Context, Object, Result};
-use entity::{async_graphql, user, sea_orm::EntityTrait};
+use entity::{async_graphql, user, article, article::Relation, sea_orm::EntityTrait};
 
 use crate::db::Database;
-
-pub struct Test {
-    pub id: i32,
-    pub name: String,
-    pub e_mail: String,
-    pub profile: String,
-    pub thx_to: i32,
-    pub thx_from: i32,
-    pub follows: i32,
-    pub followers: i32,
-    pub img_url: String,
-    pub a: i32
-    // pub creatd_at: NaiveDateTime,
-    // pub update_at: TimeDateTime,
-}
 
 #[derive(Default)]
 pub struct UserQuery;
 
 #[Object]
 impl UserQuery {
-    async fn get_users(&self, ctx: &Context<'_>) -> Result<Vec<Test>> {
+    async fn get_users(&self, ctx: &Context<'_>) -> Result<Vec<user::Model>> {
         let db = ctx.data::<Database>().unwrap();
-        let a = 3;
 
         Ok(user::Entity::find()
             .all(db.get_connection())
             .await
-            .map_err(|e| e.to_string())?);
-        println!("{}", a)
+            .map_err(|e| e.to_string())?)
         
     }
 
@@ -42,5 +25,16 @@ impl UserQuery {
             .one(db.get_connection())
             .await
             .map_err(|e| e.to_string())?)
+    }
+
+    async fn get_users_test(&self, ctx: &Context<'_>) -> Result<Vec<(user::Model, Vec<article::Model>)>> {
+        let db = ctx.data::<Database>().unwrap();
+
+        Ok(user::Entity::find()
+            .find_with_related(article::Relation::Article)
+            .all(db.get_connection())
+            .await
+            .map_err(|e| e.to_string())?)
+        
     }
 }

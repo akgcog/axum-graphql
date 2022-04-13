@@ -13,28 +13,22 @@ pub struct Model {
     pub follower_id: i32,
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::user::Entity")]
-    User,
+    User
 }
 
-// impl RelationTrait for Relation {
-//     fn def(&self) -> RelationDef {
-//         match self {
-//             Self::User => Entity::belongs_to(super::user::Entity)
-//                 .from(Column::ToUserId)
-//                 .to(super::user::Column::Id)
-//                 .into(),
-//             Self::User => Entity::belongs_to(super::user::Entity)
-//                 .from(Column::FromUserId)
-//                 .to(super::user::Column::Id)
-//                 .into(),
-        
-//         }
-//         // panic!("No RelationDef")
-//     }
-// }
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        // panic!("No RelationDef")
+        match self {
+            Self::User => Entity::belongs_to(super::user::Entity)
+                .from(Column::FollowedId)
+                .to(super::user::Column::Id)
+                .into(),
+        }
+    }
+}
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {

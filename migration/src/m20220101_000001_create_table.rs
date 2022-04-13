@@ -3,6 +3,7 @@ use entity::{
     user,
     thanks,
     follows,
+    article,
     sea_orm::{DbBackend, EntityTrait, Schema},
 };
 use sea_schema::migration::{
@@ -35,10 +36,9 @@ impl MigrationName for Migration {
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         let stmts = vec![
-                        get_seaorm_create_stmt(follows::Entity),
-                        get_seaorm_create_stmt(thanks::Entity),
                         get_seaorm_create_stmt(user::Entity),
-                        
+                        get_seaorm_create_stmt(article::Entity),
+                        // get_seaorm_create_stmt(thanks::Entity),
                         ];
 
         for stmt in stmts {
@@ -51,9 +51,9 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         let stmts = vec![
+                        get_seaorm_drop_stmt(article::Entity),
                         get_seaorm_drop_stmt(user::Entity),
-                        get_seaorm_drop_stmt(follows::Entity),
-                        get_seaorm_drop_stmt(thanks::Entity),
+                        // get_seaorm_drop_stmt(thanks::Entity),
                         ];
 
         for stmt in stmts {

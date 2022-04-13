@@ -3,27 +3,31 @@ use sea_orm::{entity::prelude::*, DeleteMany};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize, SimpleObject)]
-#[sea_orm(table_name = "user")]
-#[graphql(concrete(name = "User", params()))]
+#[sea_orm(table_name = "article")]
+#[graphql(concrete(name = "Article", params()))]
 pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)]
     pub id: i32,
-    pub name: String,
-    pub e_mail: String,
-    pub password: String,
-    pub profile: String,
+    pub body: String,
+    pub user_id: Option<i32>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::article::Entity")]
-    Article
+    #[sea_orm(
+        belongs_to = "super::user::Entity",
+        from = "Column::UserId",
+        to = "super::user::Column::Id",
+        on_update = "Cascade",
+        on_delete = "Cascade"
+    )]
+    User,
 }
 
-impl Related<super::article::Entity> for Entity {
+impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Article.def()
+        Relation::User.def()
     }
 }
 
@@ -34,9 +38,9 @@ impl Entity {
       Self::find().filter(Column::Id.eq(id))
   }
 
-  pub fn find_by_name(name: &str) -> Select<Entity> {
-      Self::find().filter(Column::Name.eq(name))
-  }
+  pub fn find_by_user_id(id: i32) -> Select<Entity> {
+    Self::find().filter(Column::UserId.eq(id))
+}
 
   pub fn delete_by_id(id: i32) -> DeleteMany<Entity> {
       Self::delete_many().filter(Column::Id.eq(id))

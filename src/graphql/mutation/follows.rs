@@ -1,6 +1,6 @@
 use async_graphql::{Context, Object, Result};
 use entity::async_graphql::{self, InputObject};
-use entity::followed;
+use entity::follows;
 use entity::sea_orm::{ActiveModelTrait, Set};
 use crate::graphql::mutation::DeleteResult;
 
@@ -11,8 +11,8 @@ use crate::db::Database;
 
 #[derive(InputObject)]
 pub struct CreateFollowedInput {
-    pub to_user_id: i32,
-    pub from_user_id: i32,
+    pub followed_id: i32,
+    pub follower_id: i32,
 }
 
 #[derive(Default)]
@@ -24,12 +24,12 @@ impl FollowedMutation {
         &self,
         ctx: &Context<'_>,
         input: CreateFollowedInput,
-    ) -> Result<followed::Model> {
+    ) -> Result<follows::Model> {
         let db = ctx.data::<Database>().unwrap();
 
-        let followed = followed::ActiveModel {
-            to_user_id: Set(input.to_user_id),
-            from_user_id: Set(input.from_user_id),
+        let followed = follows::ActiveModel {
+            followed_id: Set(input.followed_id),
+            follower_id: Set(input.follower_id),
             ..Default::default()
         };
 
@@ -39,7 +39,7 @@ impl FollowedMutation {
     pub async fn delete_followed(&self, ctx: &Context<'_>, id: i32) -> Result<DeleteResult> {
         let db = ctx.data::<Database>().unwrap();
 
-        let res = followed::Entity::delete_by_id(id)
+        let res = follows::Entity::delete_by_id(id)
             .exec(db.get_connection())
             .await?;
 

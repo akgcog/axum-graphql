@@ -14,23 +14,23 @@ pub struct Model {
     pub comment: String
 }
 
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
+#[derive(Copy, Clone, Debug, EnumIter)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::user::Entity")]
-    User,
+    // #[sea_orm(has_many = "super::user::Entity")]
+    // User,
 }
 
-// impl RelationTrait for Relation {
-//     fn def(&self) -> RelationDef {
-//         panic!("No RelationDef")
-//     }
-// }
-
-impl Related<super::user::Entity> for Entity {
-    fn to() -> RelationDef {
-        Relation::User.def()
+impl RelationTrait for Relation {
+    fn def(&self) -> RelationDef {
+        panic!("No RelationDef")
     }
 }
+
+// impl Related<super::user::Entity> for Entity {
+//     fn to() -> RelationDef {
+//         Relation::User.def()
+//     }
+// }
 
 impl ActiveModelBehavior for ActiveModel {}
 
