@@ -10,7 +10,10 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: i32,
     pub body: String,
-    pub user_id: Option<i32>,
+    pub user_id: i32,
+    pub created_at: Option<String>,
+    pub updated_at: Option<String>,
+    
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
@@ -40,7 +43,7 @@ impl Entity {
 
   pub fn find_by_user_id(id: i32) -> Select<Entity> {
     Self::find().filter(Column::UserId.eq(id))
-}
+  }
 
   pub fn delete_by_id(id: i32) -> DeleteMany<Entity> {
       Self::delete_many().filter(Column::Id.eq(id))

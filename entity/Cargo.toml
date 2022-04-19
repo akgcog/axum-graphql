@@ -20,12 +20,12 @@ version = "3.0.12"
 version = "^0.7.0"
 features = [
   "macros",
-  #"with-chrono",
+  "with-chrono",
   #"debug-print",
   "runtime-tokio-native-tls",
   #"sqlx-sqlite",
   "sqlx-postgres"
 ]
 default-features = false
-
+#chrono = "0.4.19"
 

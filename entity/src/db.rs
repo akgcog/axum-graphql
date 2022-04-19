@@ -1,4 +1,4 @@
-use entity::sea_orm;
+use sea_orm;
 use sea_orm::DatabaseConnection;
 
 pub struct Database {

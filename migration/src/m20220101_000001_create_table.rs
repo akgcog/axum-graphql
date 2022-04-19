@@ -2,7 +2,7 @@
 use entity::{
     user,
     thanks,
-    follows,
+    follow,
     article,
     sea_orm::{DbBackend, EntityTrait, Schema},
 };
@@ -38,7 +38,8 @@ impl MigrationTrait for Migration {
         let stmts = vec![
                         get_seaorm_create_stmt(user::Entity),
                         get_seaorm_create_stmt(article::Entity),
-                        // get_seaorm_create_stmt(thanks::Entity),
+                        get_seaorm_create_stmt(follow::Entity),
+                        get_seaorm_create_stmt(thanks::Entity),
                         ];
 
         for stmt in stmts {
@@ -51,9 +52,10 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         let stmts = vec![
+                        get_seaorm_drop_stmt(thanks::Entity),
+                        get_seaorm_drop_stmt(follow::Entity),
                         get_seaorm_drop_stmt(article::Entity),
                         get_seaorm_drop_stmt(user::Entity),
-                        // get_seaorm_drop_stmt(thanks::Entity),
                         ];
 
         for stmt in stmts {

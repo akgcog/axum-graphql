@@ -1,11 +1,12 @@
 use async_graphql::{EmptySubscription, Schema};
 use entity::async_graphql;
-// use migration::{Migrator, MigratorTrait};
+use migration::{Migrator, MigratorTrait};
 
 use crate::{
-    db::Database,
     graphql::{mutation::Mutation, query::Query},
 };
+
+use entity::db::Database;
 
 pub type AppSchema = Schema<Query, Mutation, EmptySubscription>;
 
@@ -13,7 +14,7 @@ pub type AppSchema = Schema<Query, Mutation, EmptySubscription>;
 pub async fn build_schema() -> AppSchema {
     let db = Database::new().await;
 
-    // Migrator::up(db.get_connection(), None).await.unwrap();
+    Migrator::up(db.get_connection(), None).await.unwrap();
 
     Schema::build(Query::default(), Mutation::default(), EmptySubscription)
         .data(db)

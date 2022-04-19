@@ -3,15 +3,14 @@ use sea_orm::{entity::prelude::*, DeleteMany};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize, SimpleObject)]
-#[sea_orm(table_name = "thanks")]
-#[graphql(concrete(name = "Thanks", params()))]
+#[sea_orm(table_name = "follow")]
+#[graphql(concrete(name = "Follow", params()))]
 pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)]
     pub id: i32,
-    pub to_thanks_id: i32,
-    pub from_thanks_id: i32,
-    pub comment: Option<String>,
+    pub followed_id: i32,
+    pub follower_id: i32,
     pub created_at: String,
 }
 
@@ -19,27 +18,27 @@ pub struct Model {
 pub enum Relation {
     #[sea_orm(
         belongs_to = "super::user::Entity",
-        from = "Column::ToThanksId",
+        from = "Column::FollowedId",
         to = "super::user::Column::Id",
         on_update = "Cascade",
         on_delete = "Cascade"
     )]
-    Tothanks,
+    Followed,
 
     #[sea_orm(
         belongs_to = "super::user::Entity",
-        from = "Column::FromThanksId",
+        from = "Column::FollowerId",
         to = "super::user::Column::Id",
         on_update = "Cascade",
         on_delete = "Cascade"
     )]
-    Fromthanks,
+    Follower,
 }
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Tothanks.def();
-        Relation::Fromthanks.def()
+        Relation::Followed.def();
+        Relation::Follower.def()
     }
 }
 
@@ -50,12 +49,12 @@ impl Entity {
       Self::find().filter(Column::Id.eq(id))
   }
 
-  pub fn find_by_tothanks_id(id: i32) -> Select<Entity> {
-    Self::find().filter(Column::ToThanksId.eq(id))
+  pub fn find_by_followed_id(id: i32) -> Select<Entity> {
+    Self::find().filter(Column::FollowedId.eq(id))
   }
 
-  pub fn find_by_fromthanks_id(id: i32) -> Select<Entity> {
-    Self::find().filter(Column::FromThanksId.eq(id))
+  pub fn find_by_follower_id(id: i32) -> Select<Entity> {
+    Self::find().filter(Column::FollowerId.eq(id))
   }
 
   pub fn delete_by_id(id: i32) -> DeleteMany<Entity> {

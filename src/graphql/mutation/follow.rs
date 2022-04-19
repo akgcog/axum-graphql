@@ -1,45 +1,45 @@
 use async_graphql::{Context, Object, Result};
 use entity::async_graphql::{self, InputObject};
-use entity::follows;
+use entity::follow;
 use entity::sea_orm::{ActiveModelTrait, Set};
 use crate::graphql::mutation::DeleteResult;
-
-use crate::db::Database;
-
-// I normally separate the input types into separate files/modules, but this is just
-// a quick example.
+use chrono::{Local, DateTime};
+use entity::db::Database;
 
 #[derive(InputObject)]
-pub struct CreateFollowedInput {
+pub struct CreateFollowInput {
     pub followed_id: i32,
     pub follower_id: i32,
+    pub created_at: Option<String>,
 }
 
 #[derive(Default)]
-pub struct FollowedMutation;
+pub struct FollowMutation;
 
 #[Object]
-impl FollowedMutation {
-    pub async fn create_followed(
+impl FollowMutation {
+    pub async fn create_follow(
         &self,
         ctx: &Context<'_>,
-        input: CreateFollowedInput,
-    ) -> Result<follows::Model> {
+        input: CreateFollowInput,
+    ) -> Result<follow::Model> {
         let db = ctx.data::<Database>().unwrap();
+        let created_at_str: DateTime<Local> = Local::now();
 
-        let followed = follows::ActiveModel {
+        let follow = follow::ActiveModel {
             followed_id: Set(input.followed_id),
             follower_id: Set(input.follower_id),
+            created_at: Set(created_at_str.to_string()),
             ..Default::default()
         };
 
-        Ok(followed.insert(db.get_connection()).await?)
+        Ok(follow.insert(db.get_connection()).await?)
     }
 
-    pub async fn delete_followed(&self, ctx: &Context<'_>, id: i32) -> Result<DeleteResult> {
+    pub async fn delete_follow(&self, ctx: &Context<'_>, id: i32) -> Result<DeleteResult> {
         let db = ctx.data::<Database>().unwrap();
 
-        let res = follows::Entity::delete_by_id(id)
+        let res = follow::Entity::delete_by_id(id)
             .exec(db.get_connection())
             .await?;
 

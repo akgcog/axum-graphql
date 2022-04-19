@@ -1,26 +1,25 @@
 use async_graphql::{Context, Object, Result};
-use entity::{async_graphql, user, sea_orm::EntityTrait};
+use entity::{async_graphql, follow, sea_orm::EntityTrait};
 use entity::db::Database;
 
 #[derive(Default)]
-pub struct UserQuery;
+pub struct FollowQuery;
 
 #[Object]
-impl UserQuery {
-    async fn get_users(&self, ctx: &Context<'_>) -> Result<Vec<user::Model>> {
+impl FollowQuery {
+    async fn get_followed(&self, ctx: &Context<'_>) -> Result<Vec<follow::Model>> {
         let db = ctx.data::<Database>().unwrap();
 
-        Ok(user::Entity::find()
+        Ok(follow::Entity::find()
             .all(db.get_connection())
             .await
             .map_err(|e| e.to_string())?)
-
     }
 
-    async fn get_user_by_id(&self, ctx: &Context<'_>, id: i32) -> Result<Option<user::Model>> {
+    async fn get_followed_by_id(&self, ctx: &Context<'_>, id: i32) -> Result<Option<follow::Model>> {
         let db = ctx.data::<Database>().unwrap();
 
-        Ok(user::Entity::find_by_id(id)
+        Ok(follow::Entity::find_by_id(id)
             .one(db.get_connection())
             .await
             .map_err(|e| e.to_string())?)
